@@ -1,8 +1,14 @@
 import Vue from 'vue'
 import App from './App.vue'
+import Vuelidate from 'vuelidate'
+import router from './router'
 
-Vue.config.productionTip = false
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+Vue.use(Vuelidate)
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+  el: '#app',
+  router,
+  render: h => h(App)
+})
