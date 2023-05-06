@@ -1,79 +1,53 @@
 <template>
   <div class="container">
     <div class="form-group">
-      <router-link to="/listaAutores"
-        ><b>Crear un nuevo Apoderado</b></router-link
-      >
+      <router-link to="/createAutores"><b>Crear un nuevo autor</b></router-link>
     </div>
     <div class="row">
-      <div class="col-md-12">
-        <div class="table-responsive">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th class="text-center"><b>ID</b></th>
-                <th class="text-center"><b>Nombres</b></th>
-                <th class="text-center"><b>Apellidos</b></th>
-                <th class="text-center"><b>País</b></th>
-                <th class="text-center"><b>Botón</b></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="autor in Autores" :key="autor.key">
-                <td>hola</td>
-                <td>{{ autor.id_autor }}</td>
-                <td>{{ autor.nombres_autor }}</td>
-                <td>{{ autor.apellidos_autor }}</td>
-                <td>{{ autor.pais.nombre_pais }}</td>
-                <td>
-                  <button v-on:click="deleteAutorClicked(autor.id_autor)">
-                    <b>Eliminar</b>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
-        </div>
+      <div class="col-md-12 table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th class="text-center"><b>ID</b></th>
+              <th class="text-center"><b>Nombres</b></th>
+              <th class="text-center"><b>Apellidos</b></th>
+              <th class="text-center"><b>Nacionalidad</b></th>
+              <th class="text-center"><b>Botón</b></th>
+              <th class="text-center"><b>Botón</b></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="autor in Autores" :key="autor.key">
+              <td class="text-center">{{ autor.id_autor }}</td>
+              <td class="text-center">{{ autor.nombres_autor }}</td>
+              <td class="text-center">{{ autor.apellidos_autor }}</td>
+              <td class="text-center">{{ autor.pais.nombre_pais }}</td>
+            
+              <td class="text-center">
+                <router-link :to="{name: 'editautor', params: { id: autor.id_autor }}" class="btn btn-warning"><b>Editar</b>
+                            </router-link>
+              </td>
+              <td class="text-center">
+                <button
+                  v-on:click="deleteAutorClicked(autor.id_autor)"
+                  class="btn btn-danger"
+                >
+                  <b>Borrar</b>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import AutorServices from "../services/AutorServices";
+import AutorDataService from "../services/AutorDataServices";
 
 export default {
-  name: "Autor-list",
+  name: "autor-list",
   data() {
     return {
       Autores: [],
@@ -81,12 +55,12 @@ export default {
       currentIndex: -1,
     };
   },
-  methods: {
-    retriveAutorService() {
-      AutorServices.getAll()
+  methods: {  
+    retrieveAutorDataService() {
+      AutorDataService.getAll()
         .then((response) => {
           this.Autores = response.data;
-          alert( response.data);
+          // alert(response.data);
           console.log(response.data);
         })
         .catch((e) => {
@@ -94,30 +68,33 @@ export default {
         });
     },
     refreshList() {
-      this.retriveAutorService();
+      this.retrieveAutorDataService();
       this.autor = null;
       this.currentIndex = -1;
     },
+    
     deleteAutorClicked(id) {
       if (window.confirm("¿Realmente quiere borrar?")) {
-        AutorServices.deleteById(id)
+        AutorDataService.deleteById(id)
           .then((response) => {
-            console.log("¡Registro eliminado", response.data);
-            this.message = `Delete of Apoderado ${id} Successful`;
+            console.log("¡Registro borrado!", response.data);
+            this.message = `Delete of autor ${id} Successful`;
             alert("¡Eliminado correctamente!");
             this.refreshList();
+            // this.$router.push({ name: "tutorials" });
           })
           .catch((e) => {
-            console.log("Error", e);
+            console.log(e);
           });
       }
     },
-    mounted() {
-      this.retriveAutorService();
-    },
+  },
+  mounted() {
+    this.retrieveAutorDataService();
   },
 };
 </script>
+
 <style>
 .btn-primary {
   margin-right: 12px;

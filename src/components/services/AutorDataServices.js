@@ -1,9 +1,13 @@
 import http from "../../http-common";
 
-class AutorServices {
+class AutorDataServices {
 
     getAll() {
         return http.get("autor/get/all");
+    }
+
+    create(data) {
+        return http.post("autor/create", data);
     }
 
     deleteById(id) {
@@ -13,4 +17,4 @@ class AutorServices {
 
 }
 
-export default new AutorServices();
+export default new AutorDataServices();
