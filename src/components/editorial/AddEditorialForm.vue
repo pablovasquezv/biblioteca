@@ -63,7 +63,7 @@ export default {
           this.editorial.id = response.data.id;
           console.log(response.data);
           this.submitted = true;
-          this.$router.push("/listaEditorial");
+          this.$router.push("/listaEditoriales");
         })
         .catch((e) => {
           alert(data);
