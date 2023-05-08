@@ -9,6 +9,9 @@
           <router-link to="/listaAutores"><b>Autores</b></router-link>
         </li>
         <li>
+          <router-link to="/listaEditoriales"><b>Editorial</b></router-link>
+        </li>
+        <li>
           <button class="btn btn-primary"><b>Salir</b></button>
         </li>
       </ul>
