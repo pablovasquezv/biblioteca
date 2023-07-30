@@ -58,7 +58,7 @@
           .then((response) => {
             this.Editoriales = response.data;
             // alert("Datos a Editar"+JSON.stringify (response.data));
-            console.log("Datos a Editar"+JSON.stringify (response.data));
+            console.log("Datos a Editoriales: "+JSON.stringify (response.data));
           })
           .catch((e) => {
             console.log(e);

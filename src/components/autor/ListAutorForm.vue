@@ -61,10 +61,10 @@ export default {
         .then((response) => {
           this.Autores = response.data;
           // alert(response.data);
-          console.log(response.data);
+          console.log("Lista de Autores: "+JSON.stringify(response.data));
         })
         .catch((e) => {
-          console.log(e);
+          console.log("¡Ocurrio un error!"+e);
         });
     },
     refreshList() {
