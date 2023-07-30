@@ -71,7 +71,7 @@
       },
       
       deleteEditorialClicked(id) {
-        if (window.confirm("¿Realmente quiere borrar?")) {
+        if (window.confirm("¿Realmente quiere borrar? "+id)) {
           EditorialDataService.deleteById(id)
             .then((response) => {
               console.log("¡Registro borrado!", response.data);

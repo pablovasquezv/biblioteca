@@ -74,7 +74,7 @@ export default {
     },
     
     deleteAutorClicked(id) {
-      if (window.confirm("¿Realmente quiere borrar?")) {
+      if (window.confirm("¿Realmente quiere borrar? "+id)) {
         AutorDataService.deleteById(id)
           .then((response) => {
             console.log("¡Registro borrado!", response.data);
