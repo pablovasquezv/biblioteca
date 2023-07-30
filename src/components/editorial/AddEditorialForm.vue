@@ -58,15 +58,16 @@ export default {
         descripcion_editorial: this.editorial.descripcion_editorial,
       };
 
+      console.log("Datos de la Editorial: "+JSON.stringify(data));
       EditorialDataService.create(data)
         .then((response) => {
           this.editorial.id = response.data.id;
-          console.log(response.data);
+          console.log("Datos enviados a la BD de Editorial "+ JSON.stringify(response.data));
           this.submitted = true;
           this.$router.push("/listaEditoriales");
         })
         .catch((e) => {
-          alert(data);
+          alert("¡Error al enviar los datos de la Editorial!"+JSON.stringify(data));
           console.log(e);
         });
     },

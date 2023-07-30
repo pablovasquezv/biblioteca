@@ -10,6 +10,7 @@
           required
           v-model="autor.nombres_autor"
           name="nombres_autor"
+          value="Amanda"
         />
       </div>
 
@@ -21,23 +22,30 @@
           required
           v-model="autor.apellidos_autor"
           name="apellidos_autor"
+          value="Vásquez"
         />
       </div>
-      <div class="col">
-        <div class="form-group">
-          <label><b>Seleccione un País</b></label>
-          <select
-            class="custom-select"
-            id="autor_pais"
-            required
-            v-model="autor.pais"
-            name="autor_pais"
+
+      <div class="form-group">
+        <label><b>Seleccione un País</b></label>
+        <select
+          class="custom-select"
+          id="id_pais"
+          required
+          v-model="autor.id_pais"
+          name="id_pais"
+        >
+        <option>
+          <b>Selecciona el país del autor...</b>
+        </option>
+          <option
+            v-for="pais in Paises"
+            :key="pais.id_pais"
+            :value="pais.id_pais"
           >
-            <option v-for="pais in Paises" :key="pais.id_pais">
-              {{ pais.nombre_pais }}
-            </option>
-          </select>
-        </div>
+            {{ pais.nombre_pais }}
+          </option>
+        </select>
       </div>
 
       <button @click="saveAutor" class="btn btn-success">Submit</button>
@@ -65,7 +73,7 @@ export default {
         id: null,
         nombres_autor: "",
         apellidos_autor: "",
-        autor_pais: "",
+        id_pais: 0,
         published: false,
       },
       submitted: false,
@@ -77,29 +85,30 @@ export default {
         .then((response) => {
           this.Paises = response.data;
           // alert(response.data);
-          console.log(response.data);
+          console.log("Lista de Países: "+JSON.stringify(response.data));
         })
         .catch((e) => {
-          console.log(e);
+          console.log("¡Error en la lista de paises!"+e);
         });
     },
     saveAutor() {
       var data = {
         nombres_autor: this.autor.nombres_autor,
         apellidos_autor: this.autor.apellidos_autor,
-        autor_pais: this.autor.pais,
+        pais: {
+          id_pais: this.autor.id_pais
+        }  
       };
-
+      console.log("Datos Autor: "+JSON.stringify(data));
       AutorDataService.create(data)
         .then((response) => {
-        
           this.autor.id = response.data.id;
-          console.log(response.data);
+          console.log("Enviando Data a la bd: "+JSON.stringify(response.data));
           this.submitted = true;
-          this.$router.push("/listaAutor");
+          this.$router.push("/listaAutores");
         })
         .catch((e) => {
-            alert(data);
+          alert("¡Ocurrío un erro al guardar los datos!"+JSON.stringify(data));
           console.log(e);
         });
     },

@@ -3,11 +3,11 @@ import http from "../../http-common";
 class AutorDataServices {
 
     getAll() {
-        return http.get("autor/get/all");
+        return http.get('autor/get/all');
     }
 
     create(data) {
-        return http.post("autor/create", data);
+        return http.post('autor/create', data);
     }
 
     deleteById(id) {

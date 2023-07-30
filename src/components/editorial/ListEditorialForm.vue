@@ -57,8 +57,8 @@
         EditorialDataService.getAll()
           .then((response) => {
             this.Editoriales = response.data;
-            // alert(response.data);
-            console.log(response.data);
+            // alert("Datos a Editar"+JSON.stringify (response.data));
+            console.log("Datos a Editar"+JSON.stringify (response.data));
           })
           .catch((e) => {
             console.log(e);
