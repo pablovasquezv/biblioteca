@@ -10,7 +10,7 @@ class EditorialDataServices {
     }
 
     update(id, data) {
-        return http.put(`/editorial/update/${id}`, data);
+        return http.put(`editorial/update/${id}`, data);
       }
 
     deleteById(id) {

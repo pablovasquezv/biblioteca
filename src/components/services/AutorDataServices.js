@@ -10,6 +10,10 @@ class AutorDataServices {
         return http.post('autor/create', data);
     }
 
+    update(id,data){
+        return http.put(`autor/update/${id}`, data)
+    }
+
     deleteById(id) {
         return http.delete(`autor/delete/${id}`);
     }
