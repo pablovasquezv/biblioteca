@@ -1,11 +1,16 @@
 <template>
   <div class="container">
     <div class="form-group">
-      <router-link to="/createAutores"><b>Crear un nuevo autor</b></router-link>
+      <router-link class="btn btn-primary" to="/createAutores"
+        ><b>Crear un nuevo autor</b></router-link
+      >
     </div>
     <div class="row">
       <div class="col-md-12 table-responsive">
-        <table class="table table-striped">
+        <table
+          class="table table-striped table-bordered display"
+          id="tablaAutores"
+        >
           <thead>
             <tr>
               <th class="text-center"><b>ID</b></th>
@@ -22,10 +27,13 @@
               <td class="text-center">{{ autor.nombres_autor }}</td>
               <td class="text-center">{{ autor.apellidos_autor }}</td>
               <td class="text-center">{{ autor.pais.nombre_pais }}</td>
-            
+
               <td class="text-center">
-                <router-link :to="{name: 'editautor', params: { id: autor.id_autor }}" class="btn btn-warning"><b>Editar</b>
-                            </router-link>
+                <router-link
+                  :to="{ name: 'editautor', params: { id: autor.id_autor } }"
+                  class="btn btn-warning"
+                  ><b>Editar</b>
+                </router-link>
               </td>
               <td class="text-center">
                 <button
@@ -44,10 +52,24 @@
 </template>
 
 <script>
+import $ from "jquery";
+
+require("datatables.net-buttons/js/dataTables.buttons");
+require("datatables.net-buttons/js/buttons.html5");
+require("datatables.net-buttons/js/buttons.print");
+//import print from "";
+import pdfmake from "pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfmake.vfs = pdfFonts.pdfMake.vfs; //exportar a pdf
+import "datatables.net-responsive-bs4";
+import JSZip from "jszip";
+window.JSZip = JSZip;
+
 import AutorDataService from "../services/AutorDataServices";
 
 export default {
   name: "autor-list",
+  //components: { DataTable },
   data() {
     return {
       Autores: [],
@@ -55,16 +77,69 @@ export default {
       currentIndex: -1,
     };
   },
-  methods: {  
+  mounted() {
+    this.retrieveAutorDataService();
+    //this.tabla();
+  },
+  methods: {
+    tabla() {
+      this.$nextTick(() => {
+        $("#tablaAutores").DataTable({
+          responsive: true,
+          autoWidth: false,
+          dom: "Bfrtip",
+          language: {
+            search: "Buscar",
+            zeroRecords: "No hay registros",
+            info: "Mostrando de _START_  a  _END_ de _TOTAL_registros",
+            infoFiltered: "(Filtros de _MAX_ registros.)",
+            paginate: {
+              firt: "Primero",
+              previous: "Anterior",
+              next: "Siguiente",
+              last: "Último",
+            },
+          },
+          buttons: [
+            {
+              title: "Reporte Autores",
+              extends: "exelHtml5",
+              text: '<i class="fa-solid fa-file-excel"></i> Excel',
+              className: "btn btn-success",
+            },
+            {
+              title: "Reporte Autores",
+              extends: "pdfHtml5",
+              text: '<i class="fa-solid fa-file-pdf"></i> PDF',
+              className: "btn btn-danger",
+            },
+            {
+              title: "Reporte Autores",
+              extends: "exelHtml5",
+              text: '<i class="fa-solid fa-print"></i> Imprimir',
+              className: "btn btn-dark",
+            },
+            {
+              title: "Reporte Autores",
+              extends: "copy",
+              text: '<i class="fa-solid fa-copy"></i> Copiar Texto',
+              className: "btn btn-dark",
+            },
+          ],
+
+        });
+      });
+    },
     retrieveAutorDataService() {
       AutorDataService.getAll()
         .then((response) => {
           this.Autores = response.data;
+          this.tabla();
           // alert(response.data);
-          console.log("Lista de Autores: "+JSON.stringify(response.data));
+          console.log("Lista de Autores: " + JSON.stringify(response.data));
         })
         .catch((e) => {
-          console.log("¡Ocurrio un error!"+e);
+          console.log("¡Ocurrio un error!" + e);
         });
     },
     refreshList() {
@@ -72,9 +147,9 @@ export default {
       this.autor = null;
       this.currentIndex = -1;
     },
-    
+
     deleteAutorClicked(id) {
-      if (window.confirm("¿Realmente quiere borrar? "+id)) {
+      if (window.confirm("¿Realmente quiere borrar? " + id)) {
         AutorDataService.deleteById(id)
           .then((response) => {
             console.log("¡Registro borrado!", response.data);
@@ -89,9 +164,6 @@ export default {
       }
     },
   },
-  mounted() {
-    this.retrieveAutorDataService();
-  },
 };
 </script>
 
@@ -99,4 +171,5 @@ export default {
 .btn-primary {
   margin-right: 12px;
 }
+@import "datatables.net-bs4";
 </style>
