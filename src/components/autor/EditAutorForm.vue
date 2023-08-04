@@ -8,6 +8,7 @@
           class="form-control"
           v-model="autor.id_autor"
           name="id_autor"
+          disabled
         />
         <div class="row mb-3">
           <div class="col">
@@ -43,20 +44,16 @@
             class="custom-select"
             id="id_pais"
             required
-            v-model="autor.id_pais"
+            v-model="autor.pais"
             name="id_pais"
           >
-            <option
-              v-for="pais in Paises"
-              :key="pais.id_pais"
-              :value="pais.id_pais"
-            >
-              {{pais.nombre_pais }}
+            <option v-for="pais in Paises" :key="pais.id_pais" :value="pais">
+              {{ pais.nombre_pais }}
             </option>
           </select>
         </div>
         <div class="form-group">
-          <button  class="btn btn-primary btn-block">
+          <button class="btn btn-primary btn-block">
             <b>Actualizar</b>
           </button>
         </div>
@@ -87,9 +84,8 @@ export default {
       },
       submitted: false,
     };
-    
   },
-  
+
   mounted() {
     this.retrievePaisDataService();
     //
@@ -100,8 +96,16 @@ export default {
     retrieveAutorDataService() {
       AutorDataService.getIdAutor(this.id_Autor)
         .then((response) => {
-          this.autor = response.data;
-          console.log('Autor a :'+JSON.stringify(this.autor))
+          this.autor.id_autor = response.data.id_autor;
+          this.autor.nombres_autor = response.data.nombres_autor;
+          this.autor.apellidos_autor = response.data.apellidos_autor;
+
+          // Busca el objeto de país correspondiente y asígnalo a autor.pais
+          const selectedPais = this.Paises.find(
+            (pais) => pais.id_pais === response.data.pais.id_pais
+          );
+          this.autor.pais = selectedPais;
+          console.log("Autor desde BD :" + JSON.stringify(this.autor));
         })
         .catch((error) => {
           console.log(error);
@@ -112,7 +116,7 @@ export default {
         .then((response) => {
           this.Paises = response.data;
           // alert(response.data);
-         // console.log("Lista de Países: " + JSON.stringify(response.data));
+          // console.log("Lista de Países: " + JSON.stringify(response.data));
         })
         .catch((e) => {
           console.log("¡Error en la lista de paises!" + e);
@@ -123,13 +127,11 @@ export default {
         id_autor: this.autor.id_autor,
         nombres_autor: this.autor.nombres_autor,
         apellidos_autor: this.autor.apellidos_autor,
-        pais: {
-          id_pais: this.autor.id_pais
-        }  
+        pais: this.autor.pais,
       };
-           // console.log("Datos del Id del Autor enviados a la BD: " + JSON.stringify(this.id_Autor));
+      // console.log("Datos del Id del Autor enviados a la BD: " + JSON.stringify(this.id_Autor));
       //console.log("Datos del Autor enviados a la BD: " + JSON.stringify(data));
-      AutorDataService.update(this.id_Autor,data)
+      AutorDataService.update(this.id_Autor, data)
         .then((response) => {
           this.autor.id_autor = response.data;
           console.log(
