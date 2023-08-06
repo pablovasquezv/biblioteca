@@ -1,11 +1,15 @@
 <template>
   <div class="container">
+ 
+    
     <div class="form-group">
       <router-link class="btn btn-primary" to="/createAutores"
         ><b>Crear un nuevo autor</b></router-link
       >
     </div>
-    <div class="row">
+
+
+    <div class="row mt-3">
       <div class="col-md-12 table-responsive">
         <table
           class="table table-striped table-bordered display"
@@ -30,7 +34,7 @@
 
               <td class="text-center">
                 <router-link
-                  :to="{ name: 'editautor', params: { id: autor.id_autor } }"
+                  :to="{ name: 'editAutor', params: { id: autor.id_autor } }"
                   class="btn btn-warning"
                   ><b>Editar</b>
                 </router-link>
@@ -80,18 +84,30 @@ export default {
   mounted() {
     this.retrieveAutorDataService();
     //this.tabla();
+    //
   },
   methods: {
+    
+ cargarModalAgregarAlumnos() {
+  alert("Botón modal");
+  $('#exampleModal').modal('show')
+
+    $('#frmAgregar').load('../autor/AddAutorForm.vue');
+  },
     tabla() {
       this.$nextTick(() => {
         $("#tablaAutores").DataTable({
+          "order":[[0,"asc"]],
           responsive: true,
           autoWidth: false,
           dom: "Bfrtip",
           language: {
+            info: 'Mostrando _START_ a _END_ de _TOTAL_ entradas',
+            lengthMenu: 'Mostrar _MENU_ entradas',
             search: "Buscar",
-            zeroRecords: "No hay registros",
-            info: "Mostrando de _START_  a  _END_ de _TOTAL_registros",
+            emptyTable: 'No hay datos disponibles en la tabla',
+            zeroRecords: 'No se encontraron registros coincidentes',
+            infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
             infoFiltered: "(Filtros de _MAX_ registros.)",
             paginate: {
               firt: "Primero",
@@ -135,6 +151,7 @@ export default {
         .then((response) => {
           this.Autores = response.data;
           this.tabla();
+          
           // alert(response.data);
           console.log("Lista de Autores: " + JSON.stringify(response.data));
         })
@@ -165,6 +182,7 @@ export default {
     },
   },
 };
+
 </script>
 
 <style>
