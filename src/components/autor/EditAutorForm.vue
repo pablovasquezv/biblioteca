@@ -47,7 +47,10 @@
             v-model="autor.pais"
             name="id_pais"
           >
-            <option v-for="pais in Paises" :key="pais.id_pais" :value="pais">
+            <option 
+            v-for="pais in Paises" 
+            :key="pais.id_pais" 
+            :value="pais.id_Pais">
               {{ pais.nombre_pais }}
             </option>
           </select>
@@ -127,7 +130,7 @@ export default {
         id_autor: this.autor.id_autor,
         nombres_autor: this.autor.nombres_autor,
         apellidos_autor: this.autor.apellidos_autor,
-        pais: this.autor.pais,
+        pais: this.autor.id_pais
       };
       // console.log("Datos del Id del Autor enviados a la BD: " + JSON.stringify(this.id_Autor));
       //console.log("Datos del Autor enviados a la BD: " + JSON.stringify(data));
