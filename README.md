@@ -4,7 +4,7 @@
 ```
 npm install
 ```
-## Instalar dependencias: 
+## Instalar dependencias 
 ``` 
 npm i datatables.net datatables.net-vue3 datatables.net-bs5 datatables.net-buttons-bs5 datatables.net-responsive-bs5 jszip pdfmake
 ```
