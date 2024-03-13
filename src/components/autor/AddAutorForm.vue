@@ -33,16 +33,16 @@
           v-model="autor.id_pais"
           name="id_pais"
         >
-        <option>
-          <b>Selecciona el país del autor...</b>
-        </option>
+          <option>
+            <b>Selecciona el país del autor...</b>
+          </option>
           <option
             v-for="pais in Paises"
             :key="pais.id_pais"
             :value="pais.id_pais"
           >
             {{ pais.nombre_pais }}
-          </option>  
+          </option>
         </select>
       </div>
 
@@ -83,30 +83,32 @@ export default {
         .then((response) => {
           this.Paises = response.data;
           // alert(response.data);
-          console.log("Lista de Países: "+JSON.stringify(response.data));
+          console.log("Lista de Países: " + JSON.stringify(response.data));
         })
         .catch((e) => {
-          console.log("¡Error en la lista de paises!"+e);
+          console.log("¡Error en la lista de paises!" + e);
         });
     },
     saveAutor() {
       var data = {
         nombres_autor: this.autor.nombres_autor,
         apellidos_autor: this.autor.apellidos_autor,
-        pais: {
-          id_pais: this.autor.id_pais
-        }  
+        id_pais: this.autor.id_pais,
       };
-      console.log("Datos Autor: "+JSON.stringify(data));
+      console.log("Datos Autor: " + JSON.stringify(data));
       AutorDataService.create(data)
         .then((response) => {
           this.autor.id = response.data.id;
-          console.log("Enviando Data a la bd: "+JSON.stringify(response.data));
+          console.log(
+            "Enviando Data a la bd: " + JSON.stringify(response.data)
+          );
           this.submitted = true;
           this.$router.push("/listaAutores");
         })
         .catch((e) => {
-          alert("¡Ocurrío un erro al guardar los datos!"+JSON.stringify(data));
+          alert(
+            "¡Ocurrío un erro al guardar los datos!" + JSON.stringify(data)
+          );
           console.log(e);
         });
     },
