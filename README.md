@@ -4,7 +4,10 @@
 ```
 npm install
 ```
-
+## Project setup
+```
+npm clean-install ( en caso de errores) luego npm install
+```
 ### Compiles and hot-reloads for development
 ```
 npm run serve

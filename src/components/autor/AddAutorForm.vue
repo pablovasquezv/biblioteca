@@ -10,7 +10,7 @@
           required
           v-model="autor.nombres_autor"
           name="nombres_autor"
-          value="Amanda"
+         
         />
       </div>
 
@@ -22,7 +22,7 @@
           required
           v-model="autor.apellidos_autor"
           name="apellidos_autor"
-          value="Vásquez"
+          
         />
       </div>
 
