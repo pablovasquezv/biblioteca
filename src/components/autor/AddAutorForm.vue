@@ -10,7 +10,6 @@
           required
           v-model="autor.nombres_autor"
           name="nombres_autor"
-         
         />
       </div>
 
@@ -22,7 +21,6 @@
           required
           v-model="autor.apellidos_autor"
           name="apellidos_autor"
-          
         />
       </div>
 
@@ -44,7 +42,7 @@
             :value="pais.id_pais"
           >
             {{ pais.nombre_pais }}
-          </option>
+          </option>  
         </select>
       </div>
 

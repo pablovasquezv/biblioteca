@@ -12,7 +12,11 @@ npm clean-install ( en caso de errores) luego npm install
 ```
 npm run serve
 ```
-
+### Solutions errors for development
+```
+1) npm clean-install
+3) npm install
+```
 ### Compiles and minifies for production
 ```
 npm run build

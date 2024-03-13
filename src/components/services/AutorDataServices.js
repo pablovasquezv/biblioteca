@@ -6,6 +6,10 @@ class AutorDataServices {
         return http.get('autor/get/all');
     }
 
+    getIdAutor(id) {
+        return http.get(`autor/${id}`);
+    }
+
     create(data) {
         return http.post('autor/create', data);
     }

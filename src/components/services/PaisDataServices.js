@@ -13,7 +13,10 @@ class PaisDataServices {
     deleteById(id) {
         return http.delete(`pais/delete/${id}`);
     }
-
+    getById(id) {
+        console.log('pais por id', id);
+        return http.get(`pais/${id}`);
+    }
 
 }
 

@@ -4,6 +4,7 @@ import Vuelidate from 'vuelidate'
 import router from './router'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
+require( 'datatables.net-bs4' );
 
 Vue.use(Vuelidate)
 
