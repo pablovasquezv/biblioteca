@@ -26,7 +26,7 @@
           </div>
           <div class="col">
             <div class="form-group">
-              <label><b>Rut</b></label>
+              <label><b>apellidos Autor</b></label>
               <input
                 type="text"
                 class="form-control"
@@ -44,10 +44,13 @@
             class="custom-select"
             id="id_pais"
             required
-            v-model="autor.pais"
+            v-model="autor.id_pais"
             name="id_pais"
           >
-            <option v-for="pais in Paises" :key="pais.id_pais" :value="pais">
+            <option
+            v-for="pais in Paises"
+            :key="pais.id_Pais"
+            :value="pais.id_pais">
               {{ pais.nombre_pais }}
             </option>
           </select>
@@ -61,7 +64,7 @@
     </div>
   </div>
 </template>
-    
+
     <script>
 import AutorDataService from "../services/AutorDataServices";
 import PaisDataService from "../services/PaisDataServices";
@@ -92,6 +95,7 @@ export default {
     this.retrieveAutorDataService();
     //this.retrievePaisIdDataService();
   },
+
   methods: {
     retrieveAutorDataService() {
       AutorDataService.getIdAutor(this.id_Autor)
@@ -99,7 +103,7 @@ export default {
           this.autor.id_autor = response.data.id_autor;
           this.autor.nombres_autor = response.data.nombres_autor;
           this.autor.apellidos_autor = response.data.apellidos_autor;
-
+          this.autor.id_pais = response.data.id_pais
           // Busca el objeto de país correspondiente y asígnalo a autor.pais
           const selectedPais = this.Paises.find(
             (pais) => pais.id_pais === response.data.pais.id_pais
@@ -127,10 +131,10 @@ export default {
         id_autor: this.autor.id_autor,
         nombres_autor: this.autor.nombres_autor,
         apellidos_autor: this.autor.apellidos_autor,
-        pais: this.autor.pais,
+        id_pais: this.autor.id_pais
       };
-      // console.log("Datos del Id del Autor enviados a la BD: " + JSON.stringify(this.id_Autor));
-      //console.log("Datos del Autor enviados a la BD: " + JSON.stringify(data));
+      console.log("Datos del Id del Autor enviados a la BD: " + JSON.stringify(this.id_Autor));
+      console.log("Datos del Autor enviados a la BD: " + JSON.stringify(data));
       AutorDataService.update(this.id_Autor, data)
         .then((response) => {
           this.autor.id_autor = response.data;
@@ -156,4 +160,4 @@ export default {
   },
 };
 </script>
-  
+
