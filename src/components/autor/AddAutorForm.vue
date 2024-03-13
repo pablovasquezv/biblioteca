@@ -65,7 +65,7 @@
         </div>
         <div class="form-group">
           <button class="btn btn-primary btn-block">
-            <b>Actualizar</b>
+            <b>Crear</b>
           </button>
         </div>
       </form>
@@ -81,6 +81,7 @@ export default {
   data() {
     return {
       Paises: [],
+      select: 'Seleccione el país del autor.....',
       autor: {
         id: null,
         nombres_autor: "",
