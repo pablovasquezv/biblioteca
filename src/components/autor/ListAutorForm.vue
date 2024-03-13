@@ -1,13 +1,10 @@
 <template>
   <div class="container">
- 
-    
     <div class="form-group">
       <router-link class="btn btn-primary" to="/createAutores"
         ><b>Crear un nuevo autor</b></router-link
       >
     </div>
-
 
     <div class="row mt-3">
       <div class="col-md-12 table-responsive">
@@ -18,7 +15,7 @@
           <thead>
             <tr>
               <th class="text-center"><b>ID</b></th>
-              <th class="text-center"><b>Nombres</b></th>
+              <th class="text-center"><b>Nombresaa</b></th>
               <th class="text-center"><b>Apellidos</b></th>
               <th class="text-center"><b>Nacionalidad</b></th>
               <th class="text-center"><b>Botón</b></th>
@@ -30,7 +27,10 @@
               <td class="text-center">{{ autor.id_autor }}</td>
               <td class="text-center">{{ autor.nombres_autor }}</td>
               <td class="text-center">{{ autor.apellidos_autor }}</td>
-              <td class="text-center">{{ autor.pais.nombre_pais }}</td>
+              <td class="text-center">
+                {{ obtenerNombrePais(autor.id_pais) }}
+              </td>
+              <!-- Cambio aquí -->
 
               <td class="text-center">
                 <router-link
@@ -71,43 +71,57 @@ window.JSZip = JSZip;
 
 import AutorDataService from "../services/AutorDataServices";
 
+import PaisDataService from "../services/PaisDataServices";
 export default {
   name: "autor-list",
   //components: { DataTable },
   data() {
     return {
       Autores: [],
+      Paises: [], // Agrega la lista de países
       autor: null,
       currentIndex: -1,
+      dataTableInstance: null, // Variable para almacenar la instancia de la tabla
     };
   },
   mounted() {
     this.retrieveAutorDataService();
+    this.retrievePaisDataService(); // Cargar la lista de países
     //this.tabla();
     //
   },
   methods: {
-    
- cargarModalAgregarAlumnos() {
-  alert("Botón modal");
-  $('#exampleModal').modal('show')
+    destroyTable() {
+      if (this.dataTableInstance !== null) {
+        this.dataTableInstance.destroy(); // Utiliza el método destroy en la instancia de la tabla
+        this.dataTableInstance = null; // Limpia la referencia a la instancia de la tabla
+      }
+    },
+    obtenerNombrePais(idPais) {
+      const pais = this.Paises.find((pais) => pais.id_pais === idPais);
+      return pais ? pais.nombre_pais : "Desconocido";
+    },
+    cargarModalAgregarAlumnos() {
+      alert("Botón modal");
+      $("#exampleModal").modal("show");
 
-    $('#frmAgregar').load('../autor/AddAutorForm.vue');
-  },
+      $("#frmAgregar").load("../autor/AddAutorForm.vue");
+    },
     tabla() {
       this.$nextTick(() => {
-        $("#tablaAutores").DataTable({
-          "order":[[0,"asc"]],
+        this.dataTableInstance = $("#tablaAutores").DataTable({
+          order: [[0, "asc"]],
           responsive: true,
           autoWidth: false,
           dom: "Bfrtip",
           language: {
-            info: 'Mostrando _START_ a _END_ de _TOTAL_ entradas',
-            lengthMenu: 'Mostrar _MENU_ entradas',
+            info: "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+            lengthMenu: "Mostrar _MENU_ entradas",
             search: "Buscar",
-            emptyTable: 'No hay datos disponibles en la tabla',
-            zeroRecords: 'No se encontraron registros coincidentes',
-            infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+            emptyTable: "No hay datos disponibles en la tabla",
+            zeroRecords: "No se encontraron registros coincidentes",
+            infoEmpty:
+              "Mostrando registros del 0 al 0 de un total de 0 registros",
             infoFiltered: "(Filtros de _MAX_ registros.)",
             paginate: {
               firt: "Primero",
@@ -142,7 +156,6 @@ export default {
               className: "btn btn-dark",
             },
           ],
-
         });
       });
     },
@@ -150,8 +163,9 @@ export default {
       AutorDataService.getAll()
         .then((response) => {
           this.Autores = response.data;
-          this.tabla();
-          
+          this.destroyTable(); // Destruye la tabla antes de reinicializarla
+          this.tabla(); // Reinicializa la tabla con los nuevos datos
+
           // alert(response.data);
           console.log("Lista de Autores: " + JSON.stringify(response.data));
         })
@@ -159,8 +173,18 @@ export default {
           console.log("¡Ocurrio un error!" + e);
         });
     },
+    retrievePaisDataService() {
+      PaisDataService.getAll()
+        .then((response) => {
+          this.Paises = response.data;
+        })
+        .catch((e) => {
+          console.log("¡Error en la lista de paises!" + e);
+        });
+    },
     refreshList() {
       this.retrieveAutorDataService();
+      this.retrievePaisDataService();
       this.autor = null;
       this.currentIndex = -1;
     },
@@ -182,7 +206,6 @@ export default {
     },
   },
 };
-
 </script>
 
 <style>
@@ -190,4 +213,4 @@ export default {
   margin-right: 12px;
 }
 @import "datatables.net-bs4";
-</style>
+</style> 
